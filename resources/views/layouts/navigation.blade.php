@@ -27,6 +27,10 @@
                                 {{ $pendingUsersCount }}
                             </span>
                         </x-nav-link>
+                            <x-nav-link :href="route('singlecall.index')" :active="request()->routeIs('admin.pending_users')">
+                                {{ __('Eventi Personali') }}
+
+                            </x-nav-link>
                     @endif
                 </div>
             </div>

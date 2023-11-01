@@ -6,10 +6,13 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\GroupCallController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReplyController;
+use App\Http\Controllers\SingleCallController;
+use App\Http\Controllers\SingleEventController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -85,6 +88,27 @@ Route::post('/groups/{group}/events/{event}', [EventController::class, 'cancel']
 Route::delete('/groups/{group}/events/{event}', [EventController::class, 'destroy'])
     ->middleware(['auth', 'verified', 'approved', 'is_admin'])
     ->name('events.destroy');
+// Single event
+Route::get('/SingleEvent', [SingleEventController::class, 'index'])
+    ->middleware(['auth', 'verified', 'approved', 'is_admin'])
+    ->name('singlecall.index');
+Route::get('/create', [SingleEventController::class, 'create'])
+    ->middleware(['auth', 'verified', 'approved', 'is_admin'])
+    ->name('single_events.create');
+Route::post('/create', [SingleEventController::class, 'store'])
+    ->middleware(['auth', 'verified', 'approved', 'is_admin'])
+    ->name('single_events.store');
+Route::get('/singlecalls/{SingleEvent}', [SingleEventController::class, 'show'])
+    ->middleware(['auth', 'verified', 'approved', 'is_admin'])
+    ->name('Single_call.show');
+
+//Single call
+Route::get('/lobby', [SingleCallController::class, 'lobby'])->name('lobby');
+
+//Group call
+Route::get('/room', [GroupCallController::class, 'room'])->name('room');
+
+
 
 // Posts
 Route::get('/groups/{group}/posts', [PostController::class, 'index'])
@@ -142,5 +166,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 });
+
+
 
 require __DIR__.'/auth.php';
